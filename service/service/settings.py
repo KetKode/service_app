@@ -137,4 +137,13 @@ LOGGING = {
     "loggers": {"django.db.backends": {"handlers": ["console"], "level": "DEBUG"}},
 }
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/1",
+    }
+}
+
 CELERY_BROKER_URL = "redis://redis:6379/0"
+
+PRICE_CACHE_NAME = 'price_cache'

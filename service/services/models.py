@@ -59,13 +59,21 @@ class Subscription(models.Model):
         Plan, related_name="subscriptions", on_delete=models.PROTECT
     )
     price = models.PositiveIntegerField(default=0)
-    comment = models.CharField(default="", max_length=50)
+    comment = models.CharField(default="", max_length=50, db_index=True)
+    field_a = models.CharField(default="", max_length=50)
+    field_b = models.CharField(default="", max_length=50)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['field_a',
+                                 'field_b'])
+            ]
 
     def save(self, *args, **kwargs):
         creating = not bool(self.id)
         result = super().save(*args, **kwargs)
-        if creating:
-            set_price.delay(self.id)
+        # if creating:
+        #     set_price.delay(self.id)
         return result
 
 
